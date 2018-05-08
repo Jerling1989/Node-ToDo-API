@@ -30,6 +30,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
 	// 	console.log('Unable to fetch Todos');
 	// });
 
+	// FIND DOCUMENT WITH KEY AND VALUE PAIR INSIDE USERS COLLECTION
 	db.collection('Users').find({name: 'Jacob'}).toArray().then((docs) => {
 		console.log('Users');
 		console.log(JSON.stringify(docs, undefined, 2));
