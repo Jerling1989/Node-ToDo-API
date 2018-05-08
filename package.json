@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Jerling1989/Node-ToDo-API#readme",
   "dependencies": {
-    "mongodb": "^3.0.7"
+    "mongodb": "^3.0.7",
+    "mongoose": "^5.0.17"
   }
 }
