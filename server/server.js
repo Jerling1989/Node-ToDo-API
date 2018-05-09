@@ -13,12 +13,13 @@ var app = express();
 // USE BODYPARSER MIDDLEWARE
 app.use(bodyParser.json());
 
-
+// POST NEW TODO ROUTE
 app.post('/todos', (req, res) => {
+	// CREATE NEW TODO OBJECT
 	var todo = new Todo({
 		text: req.body.text
 	});
-
+	// SAVE NEW TODO OBJECT TO DATABASE
 	todo.save().then((doc) => {
 		res.send(doc);
 	}, (e) => {
@@ -31,3 +32,6 @@ app.post('/todos', (req, res) => {
 app.listen(3000, () => {
 	console.log('Running on port 3000');
 });
+
+// EXPORT APP/EXPRESS
+module.exports = {app};
