@@ -9,8 +9,10 @@ var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
-// CREATE APP VARIABLE
+// CREATE APP VARIABLES
 var app = express();
+var port = process.env.PORT || 3000;
+
 // USE BODYPARSER MIDDLEWARE
 app.use(bodyParser.json());
 
@@ -61,8 +63,8 @@ app.get('/todos/:id', (req, res) => {
 
 
 // SET PORT
-app.listen(3000, () => {
-	console.log('Running on port 3000');
+app.listen(port, () => {
+	console.log(`Running on port ${port}`);
 	console.log('--------------------');
 	console.log(' ');
 });
