@@ -1,6 +1,7 @@
 // REQUIRE NPM PACKAGES
 const expect = require('expect');
 const request = require('supertest');
+const {ObjectID} = require('mongodb');
 
 // REQUIRE VARIABLES AND MODELS
 const {app} = require('./../server');
@@ -8,8 +9,8 @@ const {Todo} = require('./../models/todo');
 
 // CREATE SOME DUMMY OBJECTS FOR TEST
 const todos = [
-	{text: 'First test todo'}, 
-	{text: 'Second test todo'}
+	{_id: new ObjectID(), text: 'First test todo'}, 
+	{_id: new ObjectID(), text: 'Second test todo'}
 ];
 
 // CLEAR DATABASE BEFORE EACH TEST
@@ -80,7 +81,36 @@ describe('GET /todos', () => {
 });
 
 
+// TESTING GET /TODOS/:ID ROUTE
+describe('GET /todos/:id', () => {
+	// SHOULDE RETURN TODO DOC
+	it('should return todo doc', (done) => {
+		request(app)
+			.get(`/todos/${todos[0]._id.toHexString()}`)
+			.expect(200)
+			.expect((res) => {
+				expect(res.body.todo.text).toBe(todos[0].text);
+			})
+			.end(done);
+	});
+	// SHOULD RETURN 404 IF TODO IS NOT FOUND
+	it('should return 404 if todo not found', (done) => {
+		request(app)
+			.get(`/todos/${new ObjectID().toHexString()}`)
+			.expect(404)
+			.end(done);
+	});
+	// SHOULD RETURN 404 FOR NON VALID OBJECT ID
+	it('should return 404 for non-object id', (done) => {
+		request(app)
+			.get('/todos/123abc')
+			.expect(404)
+			.end(done);
+	});
 
+
+
+});
 
 
 
