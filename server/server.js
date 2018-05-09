@@ -13,6 +13,7 @@ var app = express();
 // USE BODYPARSER MIDDLEWARE
 app.use(bodyParser.json());
 
+
 // POST NEW TODO ROUTE
 app.post('/todos', (req, res) => {
 	// CREATE NEW TODO OBJECT
@@ -26,6 +27,7 @@ app.post('/todos', (req, res) => {
 		res.status(400).send(e);
 	});
 });
+
 
 // GET TODOS ROUTE
 app.get('/todos', (req, res) => {
@@ -41,6 +43,8 @@ app.get('/todos', (req, res) => {
 // SET PORT
 app.listen(3000, () => {
 	console.log('Running on port 3000');
+	console.log('--------------------');
+	console.log(' ');
 });
 
 // EXPORT APP/EXPRESS
