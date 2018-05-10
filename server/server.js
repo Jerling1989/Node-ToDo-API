@@ -25,7 +25,7 @@ app.post('/todos', (req, res) => {
 	var todo = new Todo({
 		text: req.body.text
 	});
-	// SAVE NEW TODO OBJECT TO DATABASE
+	// SAVE NEW TODO OBJECT TO DATABASE (DOCUMENT)
 	todo.save().then((doc) => {
 		res.send(doc);
 	}, (e) => {
@@ -86,7 +86,7 @@ app.delete('/todos/:id', (req, res) => {
 app.patch('/todos/:id', (req, res) => {
 	// CREATE ID VARIABLE FROM URL PARAMETER
 	var id = req.params.id;
-	// CREATE VARIABLE FOR USER TO UPDATE
+	// CREATE VARIABLE FOR REQ BODY
 	var body = _.pick(req.body, ['text', 'completed']);
 	// CHECK IF ID IS VALID OBJECT ID
 	if (!ObjectID.isValid(id)) {
@@ -110,7 +110,19 @@ app.patch('/todos/:id', (req, res) => {
 		}
 		res.send({todo});
 	}).catch((e) => res.status(400).send());
+});
 
+
+// POST NEW USER ROUTE
+app.post('/users', (req, res) => {
+	// CREATE VARIABLE FOR REQ BODY
+	var body = _.pick(req.body, ['email', 'password']);
+	// CREATE NEW USER OBJECT
+	var user = new User(body);
+	// SAVE NEW USER OBJECT TO DATABASE (DOCUMENT)
+	user.save().then((user) => {
+		res.send(user);
+	}).catch((e) => res.status(400).send(e));
 });
 
 
