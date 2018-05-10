@@ -1,7 +1,8 @@
 // REQUIRE NPM PACKAGES
-var express = require('express');
-var bodyParser = require('body-parser');
-var {ObjectID} = require('mongodb');
+const _ = require('lodash');
+const express = require('express');
+const bodyParser = require('body-parser');
+const {ObjectID} = require('mongodb');
 
 // REQUIRE MONGOOSE
 var {mongoose} = require('./db/mongoose');
@@ -77,6 +78,38 @@ app.delete('/todos/:id', (req, res) => {
 		}
 		res.send({todo});
 	}).catch((e) => res.status(400).send());
+});
+
+
+// UPDATE TODO BY ID ROUTE
+app.patch('/todos/:id', (req, res) => {
+	// CREATE ID VARIABLE FROM URL PARAMETER
+	var id = req.params.id;
+	// CREATE VARIABLE FOR USER TO UPDATE
+	var body = _.pick(req.body, ['text', 'completed']);
+	// CHECK IF ID IS VALID OBJECT ID
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send();
+	}
+	// IF COMPLETED VALUE IS BOOLEAN AND TRUE
+	if (_.isBoolean(body.completed) && body.completed) {
+		// SET TIME FOR COMPLETEDAT
+		body.completedAt = new Date().getTime();
+	// ELSE
+	} else {
+		// SET COMPLETED TO FALSE AND COMPLETED AT TO NULL
+		body.completed = false;
+		body.completedAt = null;
+	}
+
+	// FIND AND UPDATE TODO
+	Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
+		if (!todo) {
+			return res.status(404).send();
+		}
+		res.send({todo});
+	}).catch((e) => res.status(400).send());
+
 });
 
 
