@@ -10,7 +10,7 @@ const {Todo} = require('./../models/todo');
 // CREATE SOME DUMMY OBJECTS FOR TEST
 const todos = [
 	{_id: new ObjectID(), text: 'First test todo'}, 
-	{_id: new ObjectID(), text: 'Second test todo'}
+	{_id: new ObjectID(), text: 'Second test todo', completed: true, completedAt: 333}
 ];
 
 // CLEAR DATABASE BEFORE EACH TEST
@@ -110,7 +110,6 @@ describe('GET /todos/:id', () => {
 });
 
 
-
 // TESTING DELETE /TODOS/:ID ROUTE
 describe('DELETE /todos/:id', () => {
 	// SHOULD REMOVE A TODO BY ID
@@ -149,6 +148,65 @@ describe('DELETE /todos/:id', () => {
 			.end(done);
 	});
 });
+
+
+// TESTING PATCH /TODOS/:ID ROUTE
+describe('PATCH /todos/:id', () => {
+	// SHOULD UPDATE THE TODO DOCUMENT
+	it('should update the todo', (done) => {
+		var hexId = todos[0]._id.toHexString();
+		var text = 'This should be the new text';
+
+		request(app)
+			.patch(`/todos/${hexId}`)
+			.send({
+				completed: true,
+				text
+			})
+			.expect(200)
+			.expect((res) => {
+				expect(res.body.todo.text).toBe(text);
+				expect(res.body.todo.completed).toBe(true);
+				expect(typeof res.body.todo.completedAt).toBe('number');
+			})
+			.end(done);
+	});
+	// SHOULD KEEP COMPLETEDAT NULL WHEN TODO IS NOT COMPLETED
+	it('should clear completedAt when todo is not completed', (done) => {
+		var hexId = todos[1]._id.toHexString();
+		var text = 'This should be the new text again!';
+
+		request(app)
+			.patch(`/todos/${hexId}`)
+			.send({
+				completed: false,
+				text
+			})
+			.expect(200)
+			.expect((res) => {
+				expect(res.body.todo.text).toBe(text);
+				expect(res.body.todo.completed).toBe(false);
+				expect(res.body.todo.completedAt).toBeFalsy();
+			})
+			.end(done);
+	});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
