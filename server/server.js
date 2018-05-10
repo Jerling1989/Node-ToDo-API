@@ -1,3 +1,4 @@
+require('./config/config')
 // REQUIRE NPM PACKAGES
 const _ = require('lodash');
 const express = require('express');
@@ -12,7 +13,7 @@ var {User} = require('./models/user');
 
 // CREATE APP VARIABLES
 var app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT;
 
 // USE BODYPARSER MIDDLEWARE
 app.use(bodyParser.json());
