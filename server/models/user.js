@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const bcrypt = require('bcryptjs');
 
 // CREATE USER SCHEMA
 var UserSchema = new mongoose.Schema({
@@ -54,7 +55,7 @@ UserSchema.methods.generateAuthToken = function () {
 	})
 };
 
-
+// FIND USER BY TOKEN
 UserSchema.statics.findByToken = function (token) {
 	var User = this;
 	var decoded;
@@ -71,6 +72,22 @@ UserSchema.statics.findByToken = function (token) {
 		'tokens.access': 'auth'
 	});
 };
+
+// HASH USER PASSWORD BEFORE SAVING USER
+UserSchema.pre('save', function (next) {
+	var user = this;
+
+	if (user.isModified('password')) {
+		bcrypt.genSalt(10, (err, salt) => {
+			bcrypt.hash(user.password, salt, (err, hash) => {
+				user.password = hash;
+				next();
+			});
+		});
+	} else {
+		next();
+	}
+});
 
 // CREATE MONGOOSE USER MODEL
 var User = mongoose.model('User', UserSchema);
