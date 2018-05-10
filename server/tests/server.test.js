@@ -6,19 +6,11 @@ const {ObjectID} = require('mongodb');
 // REQUIRE VARIABLES AND MODELS
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
+const {todos, populateTodos, users, populateUsers} = require('./seed/seed');
 
-// CREATE SOME DUMMY OBJECTS FOR TEST
-const todos = [
-	{_id: new ObjectID(), text: 'First test todo'}, 
-	{_id: new ObjectID(), text: 'Second test todo', completed: true, completedAt: 333}
-];
-
-// CLEAR DATABASE BEFORE EACH TEST
-beforeEach((done) => {
-	Todo.remove({}).then(() => {
-		return Todo.insertMany(todos)
-	}).then(() => done());
-});
+// CLEAR DATABASE AND INSERT TEST DATA BEFORE EACH TEST
+beforeEach(populateUsers);
+beforeEach(populateTodos);
 
 // TESTING THE POST /TODOS ROUTE
 describe('POST /todos', () => {
