@@ -6,6 +6,7 @@ const {ObjectID} = require('mongodb');
 // REQUIRE VARIABLES AND MODELS
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
+const {User} = require('./../models/user');
 const {todos, populateTodos, users, populateUsers} = require('./seed/seed');
 
 // CLEAR DATABASE AND INSERT TEST DATA BEFORE EACH TEST
@@ -184,6 +185,103 @@ describe('PATCH /todos/:id', () => {
 	});
 
 });
+
+
+// TESTING GET /USERS/ME ROUTE
+describe('GET /users/me', () => {
+	// SHOULD RETURN USER IF AUTHENTICATION IS CORRECT
+	it('should return user if authenticated', (done) => {
+		request(app)
+			.get('/users/me')
+			.set('x-auth', users[0].tokens[0].token)
+			.expect(200)
+			.expect((res) => {
+				expect(res.body._id).toBe(users[0]._id.toHexString());
+				expect(res.body.email).toBe(users[0].email);
+			})
+			.end(done);
+	});
+	// SHOULD RETURN 401 ERROR IF AUTHENTICATION FAILS
+	it('should return a 401 if not authenticated', (done) => {
+		request(app)
+			.get('/users/me')
+			.expect(401)
+			.expect((res) => {
+				expect(res.body).toEqual({});
+			})
+			.end(done);
+	});
+});
+
+
+// TESTING POST /USERS ROUTE
+describe('POST /users', () => {
+	// SHOULD CREATE A USER WHEN VALID DATA IS ENTERED
+	it('should create a user', (done) => {
+		var email = 'example@email.com';
+		var password = 'abc123!';
+
+		request(app)
+			.post('/users')
+			.send({email, password})
+			.expect(200)
+			.expect((res) => {
+				expect(res.headers['x-auth']).toBeTruthy();
+				expect(res.body._id).toBeTruthy();
+				expect(res.body.email).toBe(email);
+			})
+			.end((err) => {
+				if (err) {
+					return done(err);
+				}
+				User.findOne({email}).then((user) => {
+					expect(user).toBeTruthy();
+					expect(user.password).not.toBe(password);
+					done();
+				});
+			});
+	});
+	// SHOULD RETURN ERROR IF INFO ENTERED IS INVALID
+	it('should return validation errors if request invalid', (done) => {
+		var email = 'bademail';
+		var password = 'bad';
+
+		request(app)
+			.post('/users')
+			.send({email, password})
+			.expect(400)
+			.end(done);
+	});
+	// SHOULD NOT CREATE USER IF EMAIL IS ALREADY IN USE
+	it('should not create user if email in use', (done) => {
+		var email = 'jacob@gmail.com';
+		var password = 'abc123!';
+
+		request(app)
+			.post('/users')
+			.send({email, password})
+			.expect(400)
+			.end(done);
+	});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
