@@ -119,9 +119,13 @@ app.post('/users', (req, res) => {
 	var body = _.pick(req.body, ['email', 'password']);
 	// CREATE NEW USER OBJECT
 	var user = new User(body);
-	// SAVE NEW USER OBJECT TO DATABASE (DOCUMENT)
-	user.save().then((user) => {
-		res.send(user);
+	// SAVE NEW USER OBJECT TO DB (DOCUMENT)
+	user.save().then(() => {
+		// GENERATE TOKEN FOR USER
+		return user.generateAuthToken();
+	}).then((token) => {
+		// SEND USER WITH TOKEN TO DB
+		res.header('x-auth', token).send(user);
 	}).catch((e) => res.status(400).send(e));
 });
 
