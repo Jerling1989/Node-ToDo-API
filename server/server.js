@@ -147,6 +147,18 @@ app.post('/users/login', (req, res) => {
 	}).catch((e) => res.status(400).send())
 });
 
+
+// DELETE /USERS/ME/TOKEN
+app.delete('/users/me/token', authenticate, (req, res) => {
+	// REMOVE TOKEN FORM USER (LOG OUT)
+	req.user.removeToken(req.token).then(() => {
+		res.status(200).send();
+	}, () => {
+		res.status(400).send();
+	});
+});
+
+
 // SET PORT
 app.listen(port, () => {
 	console.log(`Running on port ${port}`);
