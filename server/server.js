@@ -19,10 +19,11 @@ app.use(bodyParser.json());
 
 
 // POST NEW TODO ROUTE
-app.post('/todos', (req, res) => {
+app.post('/todos', authenticate, (req, res) => {
 	// CREATE NEW TODO OBJECT
 	var todo = new Todo({
-		text: req.body.text
+		text: req.body.text,
+		_creator: req.user._id
 	});
 	// SAVE NEW TODO OBJECT TO DATABASE (DOCUMENT)
 	todo.save().then((doc) => {
@@ -34,9 +35,11 @@ app.post('/todos', (req, res) => {
 
 
 // GET TODOS ROUTE
-app.get('/todos', (req, res) => {
+app.get('/todos', authenticate, (req, res) => {
 	// FETCH ALL TODOS
-	Todo.find().then((todos) => {
+	Todo.find({
+		_creator: req.user._id
+	}).then((todos) => {
 		res.send({todos});
 	}, (e) => {
 		res.status(400).send(e);
