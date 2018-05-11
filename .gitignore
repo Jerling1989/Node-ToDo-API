@@ -1,6 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
+# Created by https://www.gitignore.io/api/osx,sublimetext 
 
-# Created by https://www.gitignore.io/api/osx,sublimetext
+# environment configuration
+/server/config/config.json
 
 # dependencies
 /node_modules
