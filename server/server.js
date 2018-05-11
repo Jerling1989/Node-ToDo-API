@@ -48,7 +48,7 @@ app.get('/todos', authenticate, (req, res) => {
 
 
 // GET TODO BY ID ROUTE
-app.get('/todos/:id', (req, res) => {
+app.get('/todos/:id', authenticate, (req, res) => {
 	// CREATE ID VARIABLE FROM URL PARAMETER
 	var id = req.params.id;
 	// CHECK IF ID IS VALID OBJECT ID
@@ -56,7 +56,10 @@ app.get('/todos/:id', (req, res) => {
 		return res.status(404).send();
 	}
 	// FIND TODO BY ID
-	Todo.findById(id).then((todo) => {
+	Todo.findOne({
+		_id: id,
+		_creator: req.user._id
+	}).then((todo) => {
 		if (!todo) {
 			return res.status(404).send();
 		}
@@ -67,7 +70,7 @@ app.get('/todos/:id', (req, res) => {
 
 
 // DELETE TODO BY ID ROUTE
-app.delete('/todos/:id', (req, res) => {
+app.delete('/todos/:id', authenticate, (req, res) => {
 	// CREATE ID VARIABLE FROM URL PARAMETER
 	var id = req.params.id;
 	// CHECK IF ID IS VALID OBJECT ID
@@ -75,7 +78,10 @@ app.delete('/todos/:id', (req, res) => {
 		return res.status(404).send();
 	}
 	// FIND AND DELETE TODO BY ID
-	Todo.findByIdAndRemove(id).then((todo) => {
+	Todo.findOneAndRemove({
+		_id: id,
+		_creator: req.user._id
+	}).then((todo) => {
 		if (!todo) {
 			return res.status(404).send();
 		}
@@ -85,7 +91,7 @@ app.delete('/todos/:id', (req, res) => {
 
 
 // UPDATE TODO BY ID ROUTE
-app.patch('/todos/:id', (req, res) => {
+app.patch('/todos/:id', authenticate, (req, res) => {
 	// CREATE ID VARIABLE FROM URL PARAMETER
 	var id = req.params.id;
 	// CREATE VARIABLE FOR REQ BODY
@@ -106,7 +112,10 @@ app.patch('/todos/:id', (req, res) => {
 	}
 
 	// FIND AND UPDATE TODO
-	Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
+	Todo.findOneAndUpdate({
+		_id: id,
+		_creator: req.user._id
+	}, {$set: body}, {new: true}).then((todo) => {
 		if (!todo) {
 			return res.status(404).send();
 		}
