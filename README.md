@@ -35,3 +35,6 @@ Below I will show some examples of the API functionality and routes using Postma
 - The user can log back in by going to the POST /users/login route and entering their email and password credentials.
 ![LOGIN USER](read_me/10-login-user.png)
 
+- ELEVEN
+![GET USER](read_me/11-get-user.png)
+
