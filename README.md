@@ -32,6 +32,6 @@ Below I will show some examples of the API functionality and routes using Postma
 - By going to the DELETE /users/me/token route the user will be logged out of the API.
 ![LOGOUT USER](read_me/9-logout-user.png)
 
-- TEN
+- The user can log back in by going to the POST /users/login route and entering their email and password credentials.
 ![LOGIN USER](read_me/10-login-user.png)
 
