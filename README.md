@@ -23,7 +23,7 @@ Below I will show some examples of the API functionality and routes using Postma
 - The user can view a specific todo document by going to the GET /todos/todo-id route. By entering the ID of the todo document at the end of the url they will be able to view the specific todo that they are looking for.
 ![GET TODO BY ID](read_me/6-get-todo-id.png)
 
-- SEVEN
+- By going to the PATCH /todos/todo-id route the user can mark the todo item as completed. Once this is submitted the todo document will be updated for the completed field to be set to true and the completedAt field will have a timestamp to mark when it was completed. The user can also reverse this step if they wanted to reset the todo document as not completed.
 ![PATCH TODO](read_me/7-patch-todo.png)
 
 
