@@ -38,6 +38,6 @@ Below I will show some examples of the API functionality and routes using Postma
 - The user can make sure that they are logged into the correct account by going to the GET /users/me route at anytime and viewing the user document id and email that is returned.
 ![GET USER](read_me/11-get-user.png)
 
-- TWELVE
+- To wrap up this readme doc about the API I will show that the user has successfully logged back into their account and had all of their information saved from their last session. By going to the GET /todos route the list of todos saved by this user is returned. In this example it is only one todo document that is listed as not completed becuase earlier in the demo the user marked that second example todo item as completed and then proceeded to delete that item from the list.
 ![GET TODOS](read_me/12-get-todos-two.png)
 
