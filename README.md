@@ -16,3 +16,13 @@ Below I will show some examples of the API functionality and routes using Postma
 
 - Below is another example of a todo item being created using the POST /todos route.
 ![EXAMPLE TODO](read_me/4-example-todo.png)
+
+- FIVE
+![GET TODOS](read_me/5-get-todos.png)
+
+- SIX
+![GET TODO BY ID](read_me/6-get-todo-id.png)
+
+
+
+
