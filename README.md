@@ -26,7 +26,7 @@ Below I will show some examples of the API functionality and routes using Postma
 - By going to the PATCH /todos/todo-id route the user can mark the todo item as completed. Once this is submitted the todo document will be updated for the completed field to be set to true and the completedAt field will have a timestamp to mark when it was completed. The user can also reverse this step if they wanted to reset the todo document as not completed.
 ![PATCH TODO](read_me/7-patch-todo.png)
 
-- EIGHT
+- The user can delete a todo item by going to the DELETE /todo/todo-id route. Once submitted the deleted todo item will be shown to the user.
 ![DELETE TODO](read_me/8-delete-todo.png)
 
 
