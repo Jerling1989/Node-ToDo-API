@@ -11,5 +11,5 @@ Below I will show some examples of the API functionality and routes using Postma
 - Once the email and password is sent a new user document is created in the mongo database. Below is a screenshot from Robo 3T that shows the new document with a unique id, email, encrypted password, and a x-auth web token for the user.
 ![MONGO USER](read_me/2-mongo-user.png)
 
-- Three
+- Now that the user has an account, they can create a "todo" item. By going to the POST /todos route the user can enter the text of what they would like to get done on their todo list. Once the text is submitted a new todo document is created with _id, _creator, text, completed, and completedAt fields.
 ![CREATE TODO](read_me/3-create-todo.png)
