@@ -23,6 +23,9 @@ Below I will show some examples of the API functionality and routes using Postma
 - The user can view a specific todo document by going to the GET /todos/todo-id route. By entering the ID of the todo document at the end of the url they will be able to view the specific todo that they are looking for.
 ![GET TODO BY ID](read_me/6-get-todo-id.png)
 
+- SEVEN
+![PATCH TODO](read_me/7-patch-todo.png)
+
 
 
 
