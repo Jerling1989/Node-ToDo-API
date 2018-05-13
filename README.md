@@ -41,3 +41,7 @@ Below I will show some examples of the API functionality and routes using Postma
 - To wrap up this readme doc about the API I will show that the user has successfully logged back into their account and had all of their information saved from their last session. By going to the GET /todos route the list of todos saved by this user is returned. In this example it is only one todo document that is listed as not completed becuase earlier in the demo the user marked that second example todo item as completed and then proceeded to delete that item from the list.
 ![GET TODOS](read_me/12-get-todos-two.png)
 
+--- 
+
+I'm sure there are many ways a developer can take advantage of the functionality of this API and build a beautiful front end to make an easy and convienent application for users to keep a list of daily, weekly, or monthly tasks that they wish to accomplish and keep track of.
+
