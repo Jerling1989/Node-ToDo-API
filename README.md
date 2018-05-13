@@ -29,7 +29,7 @@ Below I will show some examples of the API functionality and routes using Postma
 - The user can delete a todo item by going to the DELETE /todo/todo-id route. Once submitted the deleted todo document will be shown to the user.
 ![DELETE TODO](read_me/8-delete-todo.png)
 
-- NINE
+- By going to the DELETE /users/me/token route the user will be logged out of the API.
 ![LOGOUT USER](read_me/9-logout-user.png)
 
 
