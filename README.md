@@ -5,8 +5,8 @@ Below I will show some examples of the API functionality and routes using Postma
 
 ---
 
-- One
+- The first thing the user will have to do is create new user credentials. This is done by going to the POST /users route on the API and entering an email address and password.
 ![CREATE USER](read_me/1-create-user.png)
 
-- Two
+- Once the email and password is sent a new user document is created in the mongo database. Below is a screenshot from Robo 3T that shows the new document with a unique id, email, encrypted password, and a x-auth web token for the user.
 ![MONGO USER](read_me/2-mongo-user.png)
