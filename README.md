@@ -14,5 +14,5 @@ Below I will show some examples of the API functionality and routes using Postma
 - Now that the user has an account, they can create a "todo" item. By going to the POST /todos route the user can enter the text of what they would like to get done on their todo list. Once the text is submitted a new todo document is created with _id, _creator, text, completed, and completedAt fields.
 ![CREATE TODO](read_me/3-create-todo.png)
 
-- FOUR
+- Below is another example of a todo item being created using the POST /todos route.
 ![EXAMPLE TODO](read_me/4-example-todo.png)
