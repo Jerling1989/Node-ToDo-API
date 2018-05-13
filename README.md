@@ -38,3 +38,6 @@ Below I will show some examples of the API functionality and routes using Postma
 - The user can make sure that they are logged into the correct account by going to the GET /users/me route at anytime and viewing the user document id and email that is returned.
 ![GET USER](read_me/11-get-user.png)
 
+- TWELVE
+![GET TODOS](read_me/12-get-todos-two.png)
+
