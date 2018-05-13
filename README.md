@@ -5,4 +5,8 @@ Below I will show some examples of the API functionality and routes using Postma
 
 ---
 
+- One
+![CREATE USER](read_me/1-create-user.png)
 
+- Two
+![MONGO USER](read_me/2-mongo-user.png)
