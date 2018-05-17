@@ -70,23 +70,27 @@ app.get('/todos/:id', authenticate, (req, res) => {
 
 
 // DELETE TODO BY ID ROUTE
-app.delete('/todos/:id', authenticate, (req, res) => {
+app.delete('/todos/:id', authenticate, async (req, res) => {
 	// CREATE ID VARIABLE FROM URL PARAMETER
-	var id = req.params.id;
+	const id = req.params.id;
 	// CHECK IF ID IS VALID OBJECT ID
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send();
 	}
-	// FIND AND DELETE TODO BY ID
-	Todo.findOneAndRemove({
-		_id: id,
-		_creator: req.user._id
-	}).then((todo) => {
+
+	try {
+		// FIND AND DELETE TODO BY ID
+		const todo = await Todo.findOneAndRemove({
+			_id: id,
+			_creator: req.user._id
+		});
 		if (!todo) {
 			return res.status(404).send();
 		}
 		res.send({todo});
-	}).catch((e) => res.status(400).send());
+	} catch (e) {
+		res.status(400).send();
+	}
 });
 
 
@@ -125,19 +129,21 @@ app.patch('/todos/:id', authenticate, (req, res) => {
 
 
 // POST NEW USER ROUTE
-app.post('/users', (req, res) => {
-	// CREATE VARIABLE FOR REQ BODY
-	var body = _.pick(req.body, ['email', 'password']);
-	// CREATE NEW USER OBJECT
-	var user = new User(body);
-	// SAVE NEW USER OBJECT TO DB (DOCUMENT)
-	user.save().then(() => {
+app.post('/users', async (req, res) => {
+	try {
+		// CREATE VARIABLE FOR REQ BODY
+		const body = _.pick(req.body, ['email', 'password']);
+		// CREATE NEW USER OBJECT
+		const user = new User(body);
+		// SAVE NEW USER OBJECT TO DB (DOCUMENT)
+		await user.save();
 		// GENERATE TOKEN FOR USER
-		return user.generateAuthToken();
-	}).then((token) => {
+		const token = await user.generateAuthToken();
 		// SEND USER WITH TOKEN TO DB
-		res.header('x-auth', token).send(user);
-	}).catch((e) => res.status(400).send(e));
+		res.header('x-auth', token).send(user);	
+	} catch (e) {
+		res.status(400).send(e);
+	}
 });
 
 
@@ -148,32 +154,35 @@ app.get('/users/me', authenticate, (req, res) => {
 
 
 // POST /USERS/LOGIN ROUTE
-app.post('/users/login', (req, res) => {
-	// CREATE VARIABLE FOR REQ BODY
-	var body = _.pick(req.body, ['email', 'password']);
-	// MAKE SURE CREDENTIALS ARE CORRECT
-	User.findByCredentials(body.email, body.password).then((user) => {
-		return user.generateAuthToken().then((token) => {
-			res.header('x-auth', token).send(user);
-		});
-	}).catch((e) => res.status(400).send())
+app.post('/users/login', async (req, res) => {
+	try {
+		// CREATE VARIABLE FOR REQ BODY
+		const body = _.pick(req.body, ['email', 'password']);
+		// MAKE SURE CREDENTIALS ARE CORRECT
+		const user = await User.findByCredentials(body.email, body.password);
+		const token = await user.generateAuthToken();
+		res.header('x-auth', token).send(user);
+	} catch (e) {
+		res.status(400).send();
+	}
 });
 
 
 // DELETE /USERS/ME/TOKEN
-app.delete('/users/me/token', authenticate, (req, res) => {
-	// REMOVE TOKEN FROM USER (LOG OUT)
-	req.user.removeToken(req.token).then(() => {
+app.delete('/users/me/token', authenticate, async (req, res) => {
+	try {
+		// REMOVE TOKEN FROM USER (LOG OUT)
+		await req.user.removeToken(req.token);
 		res.status(200).send();
-	}, () => {
+	} catch (e) {
 		res.status(400).send();
-	});
+	}
 });
 
 
-// SET PORT
+// SET PORT LISTENER
 app.listen(port, () => {
-	console.log(`Running on port ${port}`);
+	console.log('Running on port 3000');
 	console.log('--------------------');
 	console.log(' ');
 });
